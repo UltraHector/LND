@@ -2,18 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bottom_navigation_friends"
-        android:icon="@drawable/ic_bottom_navigation_friends"
-        android:title="Friends" />
+        android:id="@+id/bottom_navigation_lnd"
+        android:icon="@drawable/ic_bottom_navigation_lnd"
+        android:title="LND" />
 
     <item
-        android:id="@+id/bottom_navigation_orders"
-        android:icon="@drawable/ic_bottom_navigation_orders"
-        android:title="Orders" />
-
-    <item
-        android:id="@+id/bottom_navigation_profile"
-        android:icon="@drawable/ic_bottom_navigation_profile"
-        android:title="Me" />
+        android:id="@+id/bottom_navigation_about"
+        android:icon="@drawable/ic_bottom_navigation_about"
+        android:title="About" />
 
 </menu>

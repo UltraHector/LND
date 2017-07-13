@@ -1,20 +1,17 @@
 package engineering.griffith.edu.lnd;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
 /**
  * Created by Hector on 22/6/17.
  */
-public class Tool2Fragment extends Fragment {
+public class AboutFragment extends Fragment {
 
     private Button button;
 
@@ -34,9 +31,9 @@ public class Tool2Fragment extends Fragment {
 
 
 
-    public static Tool2Fragment newInstance() {
-        Tool2Fragment lndFragment =
-                new Tool2Fragment();
+    public static AboutFragment newInstance() {
+        AboutFragment lndFragment =
+                new AboutFragment();
         return lndFragment;
     }
 
@@ -45,7 +42,7 @@ public class Tool2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tool2, container, false);
+        View view = inflater.inflate(R.layout.fragment_about, container, false);
 
 
         return view;

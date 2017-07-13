@@ -30,6 +30,7 @@ public class MainActivity  extends AppCompatActivity {
          */
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomMenuOnclickListener());
+        navigation.setVisibility(View.INVISIBLE);
 
         // display the friend fragment by default
         Fragment fragment = new LNDFragment();
@@ -45,16 +46,12 @@ public class MainActivity  extends AppCompatActivity {
             Fragment fragment = null;
 
             switch (item.getItemId()) {
-                case R.id.bottom_navigation_friends:
+                case R.id.bottom_navigation_lnd:
                     fragment = new LNDFragment();
                     displayFrament(fragment);
                     return true;
-                case R.id.bottom_navigation_orders:
-                    fragment = new Tool2Fragment();
-                    displayFrament(fragment);
-                    return true;
-                case R.id.bottom_navigation_profile:
-                    fragment = new Tool3Fragment();
+                case R.id.bottom_navigation_about:
+                    fragment = new AboutFragment();
                     displayFrament(fragment);
                     return true;
             }

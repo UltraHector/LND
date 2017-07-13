@@ -2,6 +2,7 @@ package engineering.griffith.edu.lnd;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * Created by Hector on 22/6/17.
@@ -100,7 +102,15 @@ public class LNDFragment extends Fragment {
         public void onClick(View view) {
             switch(view.getId()){
                 case R.id.activity_main_submit_btn:
+                    if(forestLFEt.getText().toString().trim().length() == 0 ||
+                            forestNFEt.getText().toString().trim().length() == 0 ||
+                            forestHFEt.getText().toString().trim().length() == 0 ||
+                            lndLevelEt.getText().toString().trim().length() == 0 ||
+                            wtpIntakeEt.getText().toString().trim().length() == 0){
+                        Toast.makeText(getActivity(), "Please Enter all the required values", Toast.LENGTH_LONG).show();
 
+                        return ;
+                    }
                     LF = Double.valueOf(forestLFEt.getText().toString());
                     NF = Double.valueOf(forestNFEt.getText().toString());
                     HF = Double.valueOf(forestHFEt.getText().toString());

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
 public class LND {
 
     /*
@@ -77,9 +76,7 @@ public class LND {
 
         // fix threshold of what it is above/below median. With exponential distribution, mean sits at 0.63 of CDF
         double xLFl=0.001;
-
         double xLFh=0.25;
-
         double xNFl=0.25;
         double xNFh=0.75;
         double xHFl=0.75;
@@ -122,7 +119,19 @@ public class LND {
             x3.add(ThreadLocalRandom.current().nextDouble());
         }
 
+        // nornalising random numbers within the limits of LF, NF and HF
+        for (int i = 0; i < NotWOrking1; i++) {
+            x1.set(i, x1.get(i) * (xLFh - xLFl) + xLFl);
+        }
+        for (int i = 0; i < NotWOrking2; i++) {
+            x2.set(i, x2.get(i) * (xNFh - xNFl) + xNFl);
+        }
+        for (int i = 0; i < NotWOrking3; i++) {
+            x3.set(i, x3.get(i) * (xHFh - xHFl) + xHFl);
+        }
+
         double[] X = new double[(int)(sim*LF+sim*NF+sim*HF)];
+
         for(int i = 0; i < sim*LF; i++){
             X[i] = x1.get(i);
         }
@@ -132,6 +141,7 @@ public class LND {
         for(int i = 0; i < sim*HF; i++){
             X[i + (int)(sim*LF) + (int)(sim*NF)] = x3.get(i);
         }
+
 
         double[][] XfinalInflow = new double[(int)(sim*LF+sim*NF+sim*HF)][(int)weeksahead];
         List<Integer> randperm = new ArrayList<>();
@@ -153,7 +163,7 @@ public class LND {
 
         //Calculation random Inflow vectors through quantile (inverse CDF) of
         //exponential distribution
-        double[][] Inflows = new double[(int)(sim*LF+sim*NF+sim*HF)][(int)weeksahead];
+        double[][] Inflows = new double[(int)(sim*LF+sim*NF+sim*HF)][(int) weeksahead];
         for(int i=0; i<sim*LF+sim*NF+sim*HF; i++){
             for(int j=0; j<weeksahead; j++){
                 Inflows[i][j] = 0;
@@ -164,6 +174,7 @@ public class LND {
                 Inflows[i][j] = (0 - meanfl) * Math.log(1 - XfinalInflow[i][j]);
             }
         }
+
         // calculate deltaVOL. From historical data, Total VOL=
         // 0.00006*Inflow.^2-0.1113*x+185.69+err   then take off outflows
         double[][] FlowingVOL = new double[(int)(sim*LF+sim*NF+sim*HF)][(int)weeksahead];
@@ -192,7 +203,6 @@ public class LND {
             }
         }
 
-
         double ENVflow=Envflow*7;
 
         double[][] Spill=new double[(int)(sim*LF+sim*NF+sim*HF)][(int)weeksahead];
@@ -204,7 +214,7 @@ public class LND {
         if(WTPIntake>61.2)
             WTPIntake=61.2;
 
-        double[][] WTPmax=new double[(int)(sim*LF+sim*NF+sim*HF)][(int)weeksahead];
+        double[][] WTPmax=new double[(int)(sim*LF+sim*NF+sim*HF)][(int)weeksahead + 1];
         for(int i=0; i<sim*LF+sim*NF+sim*HF; i++){
             for(int j=0; j<weeksahead; j++){
                 WTPmax[i][j] = 1 * 7 * WTPIntake;
@@ -279,7 +289,7 @@ public class LND {
                 WTPmax[i][1] = 0;
             }
         }
-        for(int j = 1; j < weeksahead - 1; j++){
+        for(int j = 1; j < weeksahead; j++){
             for (int i = 0; i < sim * LF + sim * NF + sim * HF; i++) {
                 LNDvol[i][j] = LNDvol[i][j-1] + FlowingVOL[i][j]-ENVflow-WTPmax[i][j];
                 if(LNDvol[i][j]>LNDmax){
@@ -355,6 +365,7 @@ public class LND {
             low[i] = 0;
             LNDFIN[i] = 1;
         }
+
         for (int i = 0; i < sim; i++) {
             if (LNDvol[i][(int) weeksahead - 1] < 4000) {
                 LNDFIN[i] = 123 + 4.5296 * Math.pow(LNDvol[i][(int) weeksahead - 1], 0.2569);

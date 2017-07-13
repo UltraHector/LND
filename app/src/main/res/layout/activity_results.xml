@@ -1,31 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout
+        android:id="@+id/fragment_result_title_bar_tv"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white">
+
+
+        <Button
+            android:id="@+id/title_bar_back_action_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@null"
+            android:drawableLeft="@drawable/selector_back_arrow"
+            android:drawablePadding="5dip"
+            android:onClick="btnBackOnClick"
+            android:paddingLeft="5dp"
+            android:paddingRight="20dp"
+            android:text="Back"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18.0sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Outputs"
+            android:textColor="@color/colorPrimary"
+            android:textSize="19.0sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="01dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/lightgrey" />
+
+    </RelativeLayout>
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:paddingBottom="10dp"
+        android:layout_below="@id/fragment_result_title_bar_tv">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:text="LND likely volume after 6 weeks"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/activity_result_bar_chart"
+                    android:layout_width="350dp"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center" />
 
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/activity_result_LND_chart"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center" />
+            </LinearLayout>
 
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/activity_result_spill_chart"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#e8e8e8" />
 
 
-    </LinearLayout>
-</ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:text="Probability of low/medium/high volume after 6 weeks"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/activity_result_LND_chart"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#e8e8e8" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:text="Spill Risk during the next 6 weeks"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/activity_result_spill_chart"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
