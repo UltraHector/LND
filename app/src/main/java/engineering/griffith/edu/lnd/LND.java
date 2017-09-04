@@ -3,7 +3,7 @@ package engineering.griffith.edu.lnd;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 public class LND {
 
     /*
@@ -104,19 +104,19 @@ public class LND {
         long NotWOrking1= Math.round(sim*LF);
         List<Double> x1 = new ArrayList<Double>();
         for(int i=0; i < NotWOrking1; i++){
-            x1.add(ThreadLocalRandom.current().nextDouble());
+            x1.add((new Random()).nextDouble());
         }
 
         long NotWOrking2= Math.round(sim*NF);
         List<Double> x2 = new ArrayList<Double>();
         for(int i=0; i < NotWOrking2; i++){
-            x2.add(ThreadLocalRandom.current().nextDouble());
+            x2.add((new Random()).nextDouble());
         }
 
         long NotWOrking3= Math.round(sim*HF);
         List<Double> x3 = new ArrayList<Double>();
         for(int i=0; i < NotWOrking3; i++){
-            x3.add(ThreadLocalRandom.current().nextDouble());
+            x3.add((new Random()).nextDouble());
         }
 
         // nornalising random numbers within the limits of LF, NF and HF
@@ -132,13 +132,13 @@ public class LND {
 
         double[] X = new double[(int)(sim*LF+sim*NF+sim*HF)];
 
-        for(int i = 0; i < sim*LF; i++){
+        for(int i = 0; i < NotWOrking1; i++){
             X[i] = x1.get(i);
         }
-        for(int i = 0; i < sim*NF; i++){
+        for(int i = 0; i < NotWOrking2; i++){
             X[i + (int)(sim*LF)] = x2.get(i);
         }
-        for(int i = 0; i < sim*HF; i++){
+        for(int i = 0; i < NotWOrking3; i++){
             X[i + (int)(sim*LF) + (int)(sim*NF)] = x3.get(i);
         }
 
@@ -191,7 +191,7 @@ public class LND {
         double s=589.0406;
         for(int i=0; i<sim*LF+sim*NF+sim*HF; i++){
             for(int j=0; j<weeksahead; j++){
-                double q = ThreadLocalRandom.current().nextDouble() * (0.70-0.30)+0.30;
+                double q = (new Random()).nextDouble() * (0.70-0.30)+0.30;
                 double err = mu + s*Math.log(q/(1-q));
                 // TODO, not understand here in the matlab Inflows > 2000
                 if(Inflows[i][j]>2000){

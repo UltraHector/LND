@@ -1,8 +1,10 @@
 package engineering.griffith.edu.lnd;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -19,7 +21,6 @@ import android.widget.Spinner;
 
 public class MainActivity  extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class MainActivity  extends AppCompatActivity {
         // display the friend fragment by default
         Fragment fragment = new LNDFragment();
         displayFrament(fragment);
+
     }
 
 
@@ -70,5 +72,7 @@ public class MainActivity  extends AppCompatActivity {
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
+
+
 
 }

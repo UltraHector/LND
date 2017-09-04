@@ -1,6 +1,9 @@
 package engineering.griffith.edu.lnd;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.Calendar;
 
 /**
  * Created by Hector on 22/6/17.
@@ -37,6 +48,12 @@ public class LNDFragment extends Fragment {
     private EditText forestHFEt;
     private EditText wtpIntakeEt;
 
+    private Activity mainActivity;
+
+
+
+    ProgressDialog mProgressDialog;
+    private double lFData, nFData, hFData;
 
 
 
@@ -50,6 +67,9 @@ public class LNDFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mainActivity = getActivity();
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lnd, container, false);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -73,6 +93,11 @@ public class LNDFragment extends Fragment {
         forestNFEt = (EditText) view.findViewById(R.id.activity_main_bom_forest_input_2_et);
         forestHFEt = (EditText) view.findViewById(R.id.activity_main_bom_forest_input_3_et);
         wtpIntakeEt = (EditText) view.findViewById(R.id.activity_main_wtp_input_et);
+
+
+        //Fetch the gov data
+
+        new FetchGovDataTask().execute();
 
 
         return view;
@@ -127,6 +152,7 @@ public class LNDFragment extends Fragment {
                     intent.putExtra("SPILL_RISK", lnd.SPILL_RISK);
                     intent.putExtra("AverageWTP", lnd.AverageWTP);
 
+
                     startActivity(intent);
 
                     break;
@@ -134,4 +160,100 @@ public class LNDFragment extends Fragment {
         }
     }
 
+
+    // Description AsyncTask
+    private class FetchGovDataTask extends AsyncTask<Void, Void, Boolean> {
+        // Description AsyncTask
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(mainActivity);
+            mProgressDialog.setTitle("Fetching government water data");
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Connection.Response response = null;
+            int monthInt = 0;
+            String month = "";
+            String url = "http://www.bom.gov.au/water/ssf/north_east_coast/south_coast/fc/";
+            String year = Calendar.getInstance().get(Calendar.YEAR) + "";
+            Elements dataEles = null;
+            Document document = null;
+
+            try {
+
+                monthInt = Calendar.getInstance().get(Calendar.MONTH) + 1;
+                if(monthInt < 10) {
+                    month += "0" + monthInt;
+                }else{
+                    month += monthInt;
+                }
+                url += year + "/" + month + "/146014A_FC_6_" + year + "_" + month + "_summary.html";
+
+                // Connect to the web site
+                response = Jsoup.connect(url).execute();
+
+            } catch (IOException e) {
+                monthInt = monthInt - 1;
+                month = "";
+
+                if (monthInt < 10) {
+                    month += "0" + monthInt;
+                } else {
+
+                    month += monthInt;
+                }
+
+                url = "http://www.bom.gov.au/water/ssf/north_east_coast/south_coast/fc/";
+                url += year + "/" + month + "/146014A_FC_6_" + year + "_" + month + "_summary.html";
+                try {
+                    response = Jsoup.connect(url).execute();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            try {
+
+                document = response.parse();
+                // Using Elements to get the Meta data
+                dataEles = document
+                        .select(".data");
+
+                // Locate the content attribute
+                if (dataEles.size() == 6) {
+                    lFData = Double.valueOf(dataEles.get(1).html());
+                    nFData = Double.valueOf(dataEles.get(3).html());
+                    hFData = Double.valueOf(dataEles.get(5).html());
+                    return true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(result) {
+                // Set description into TextView
+                String lFString = lFData + "";
+                String nFString = nFData + "";
+                String hFString = hFData + "";
+
+                forestLFEt.setText(lFString.substring(0, lFString.length()));
+                forestNFEt.setText(nFString.substring(0, lFString.length()));
+                forestHFEt.setText(hFString.substring(0, lFString.length()));
+
+            }
+
+            mProgressDialog.dismiss();
+        }
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -17,6 +18,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -45,6 +48,11 @@ public class ResultsActivity extends AppCompatActivity {
         SPILL_RISK = intent.getDoubleArrayExtra("SPILL_RISK");
         AverageWTP = intent.getDoubleExtra("AverageWTP", 0);
 
+
+
+        // private avg intake
+        TextView avgTv =  (TextView) findViewById(R.id.activity_result_avg_intake);
+        avgTv.setText(AverageWTP + "");
 
 
         /**
@@ -130,7 +138,7 @@ public class ResultsActivity extends AppCompatActivity {
         lndData.setDataSet(lndDataset);
         lndDataset.setColors(ColorTemplate.COLORFUL_COLORS); //
 
-        lndPieChart.setCenterText("LND Level");
+        lndPieChart.setCenterText("");
         lndPieChart.setData(lndData);
 
         lndPieChart.animateY(2000);
@@ -152,7 +160,7 @@ public class ResultsActivity extends AppCompatActivity {
         spillData.setDataSet(spillDataset);
         spillDataset.setColors(ColorTemplate.COLORFUL_COLORS); //
 
-        spillPieChart.setCenterText("LND Level");
+        spillPieChart.setCenterText("");
         spillPieChart.setData(spillData);
 
         spillPieChart.animateY(2000);
