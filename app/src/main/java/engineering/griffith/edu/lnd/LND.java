@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class LND {
+
 
     /*
      * Input parameters
@@ -45,7 +48,7 @@ public class LND {
         //SSF uses reference to median, but exponential distribution needs average;
         //however we extract random numbers based on median and convert to inflow
         //using the equation with average
-        double meanfl = Av_Flow[current_month];
+        double meanfl = Av_Flow[current_month - 1];
 
         //specify month by month where the median value sits in the inflow exp CDF
         double[] median = {0.27, 0.32, 0.33, 0.28, 0.24, 0.22,
@@ -104,19 +107,19 @@ public class LND {
         long NotWOrking1= Math.round(sim*LF);
         List<Double> x1 = new ArrayList<Double>();
         for(int i=0; i < NotWOrking1; i++){
-            x1.add((new Random()).nextDouble());
+            x1.add(0 + 1 * (new Random()).nextDouble());
         }
 
         long NotWOrking2= Math.round(sim*NF);
         List<Double> x2 = new ArrayList<Double>();
         for(int i=0; i < NotWOrking2; i++){
-            x2.add((new Random()).nextDouble());
+            x2.add(0 + 1 * (new Random()).nextDouble());
         }
 
         long NotWOrking3= Math.round(sim*HF);
         List<Double> x3 = new ArrayList<Double>();
         for(int i=0; i < NotWOrking3; i++){
-            x3.add((new Random()).nextDouble());
+            x3.add(0 + 1 * (new Random()).nextDouble());
         }
 
         // nornalising random numbers within the limits of LF, NF and HF
@@ -191,7 +194,7 @@ public class LND {
         double s=589.0406;
         for(int i=0; i<sim*LF+sim*NF+sim*HF; i++){
             for(int j=0; j<weeksahead; j++){
-                double q = (new Random()).nextDouble() * (0.70-0.30)+0.30;
+                double q = (0 + 1 * (new Random()).nextDouble()) * (0.70-0.30)+0.30;
                 double err = mu + s*Math.log(q/(1-q));
                 // TODO, not understand here in the matlab Inflows > 2000
                 if(Inflows[i][j]>2000){
